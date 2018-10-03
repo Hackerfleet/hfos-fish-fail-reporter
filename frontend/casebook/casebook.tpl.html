@@ -1,14 +1,171 @@
-<div class="container">
-    <div class="jumbotron">
-        <h1>Heroes</h1>
-        <span>Node local user heroes</span>
+<!--
+  ~ #!/usr/bin/env python
+  ~ # -*- coding: UTF-8 -*-
+  ~
+  ~ __license__ = """
+  ~ Hackerfleet Operating System
+  ~ ============================
+  ~ Copyright (C) 2011- 2018 riot <riot@c-base.org> and others.
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~ """
+  -->
 
-        <h3>Achievement status</h3>
-        <span>This would list general stats about local achievements</span>
-        <span ng-repeat="achievement in $ctrl.achievements">{{achievement.name}}</span>
 
-        <h3>Badge details</h3>
-        <span>This would give a list of badges assigned to users</span>
-        <span ng-repeat="badge in $ctrl.badges">{{badge.name}}</span>
+<div class="jumbotron" style="padding-top: 5px">
+    <h1>Casebook</h1>
+    <span>Manage reports and cases</span>
+
+    <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true"
+         bs-collapse>
+        <div class="panel panel-default">
+            <div class="panel-heading panel-hover" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle>
+                        Manage <span class="badge"
+                                     ng-show="$ctrl.reports">{{$ctrl.reports | objectLength}}</span>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target uib-collapse="false">
+                <div class="panel-body">
+                    <h4>Manage reports
+                        <form class="form-horizontal pull-right">
+                            <div class="form-group clearable">
+                                <input type="search" class="form-control"
+                                       ng-model="$ctrl.report_filter_string">
+                                <span class="clearable__clear fa"
+                                      style="top: 9px"
+                                      ng-click="$ctrl.report_filter_string = ''"
+                                      ng-class="{'fa-search': $ctrl.report_filter_string === '',
+                                 'fa-times': $ctrl.report_filter_string !== ''}"></span>
+                            </div>
+                        </form>
+                    </h4>
+                </div>
+                <table class="table table-hover table-responsive user-list">
+                    <thead>
+                    <tr>
+                        <th>#
+                            <input type="checkbox"
+                                   ng-click="$ctrl.toggle_reports()"
+                                   ng-model="$ctrl.all_reports"/>
+                            <button class="btn btn-danger btn-xs" ng-click="$ctrl.act_reports()">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </th>
+                        <th>Vessel IMO</th>
+                        <th>Vessel Name</th>
+                        <th>Reporter</th>
+                        <th>Noticed</th>
+                        <th>Reason</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="report in $ctrl.reports">
+                        <td>{{$index + 1}}
+                            <input type="checkbox" ng-model="$ctrl.checked_reports[report.uuid]"/>
+                        </td>
+                        <td>
+                            <span>{{$ctrl.vessels[report.vessel].imo}}</span>
+                        </td>
+                        <td>
+                            <span>{{$ctrl.vessels[report.vessel].name}}</span>
+                        </td>
+                        <td>
+                            <span>{{$ctrl.users[report.owner].name}}</span>
+                        </td>
+                        <td>
+                            <span>{{report.noticed | date:'mediumDate'}}</span>
+                            <span am-time-ago="report.noticed"></span>
+                        </td>
+                        <td>
+                            <span>{{report.reason}}</span>
+                        </td>
+                        <td>
+                            <form>
+                                <button ng-click="$ctrl.delete(report.uuid)"
+                                        class="btn btn-danger btn-sm">
+                                    <span class="fa fa-times"></span>
+                                    Delete report
+                                </button>
+                                <button ng-click="$ctrl.create_case(report.uuid);"
+                                        class="btn btn-success btn-sm">
+                                    <span class="fa fa-crosshairs"></span>
+                                    Create case
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading panel-hover" role="tab">
+                <h4 class="panel-title">
+                    <a bs-collapse-toggle>
+                        Cases <span class="badge"
+                                    ng-show="$ctrl.cases">{{$ctrl.cases | objectLength}}</span>
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                <div class="panel-body">
+                    <span>Open cases</span>
+                </div>
+                <table class="table table-hover table-responsive user-list">
+                    <thead>
+                    <tr>
+                        <th>#
+                            <input type="checkbox"
+                                   ng-click="$ctrl.toggle_cases()"
+                                   ng-model="$ctrl.all_cases"/>
+                            <button class="btn btn-danger btn-xs" ng-click="$ctrl.act_cases()">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </th>
+                        <th>Vessel IMO</th>
+                        <th>Vessel Name</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="case in $ctrl.cases">
+                        <td>{{$index + 1}}
+                            <input type="checkbox" ng-model="$ctrl.checked_cases[case.uuid]"/>
+                        </td>
+                        <td>
+                            <span>{{$ctrl.vessels[case.vessel].imo}}</span>
+                        </td>
+                        <td>
+                            <span>{{$ctrl.vessels[case.vessel].name}}</span>
+                        </td>
+                        <td>
+                            <form>
+                                <button ng-click="$ctrl.blacklist(case.vessel);"
+                                        class="btn btn-warning btn-sm">
+                                    <span class="fa fa-crosshairs"></span>
+                                    Blacklist
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
