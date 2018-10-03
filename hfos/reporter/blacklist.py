@@ -45,7 +45,7 @@ blacklistSchema['properties'].update({
     },
     'vessel': uuid_object(title='Vessel', description='Blacklisted vessel details'),
     'report': uuid_object(title='Report', description='Associated report'),
-    'blacklist': uuid_object(title='Blacklist', description='Associated blacklist file'),
+    'case': uuid_object(title='Case', description='Associated case file'),
     'notes': {'type': 'string', 'format': 'html', 'title': 'User notes',
               'description': 'Entry notes'}
 })

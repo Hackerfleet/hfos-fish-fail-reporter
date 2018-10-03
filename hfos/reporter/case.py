@@ -51,9 +51,9 @@ caseSchema['properties'].update({
                     'type': 'string',
                     'enum': ['photo', 'video', 'ais-track', 'satellite-image', 'witness-report', 'inspection']
                 },
-                'details': {
-                    'type': uuid_object(title='Details', description='Evidence details')
-                }
+                #'details': {
+                #    'type': uuid_object(title='Details', description='Evidence details')
+                #}
             }
         }
     },
@@ -62,25 +62,37 @@ caseSchema['properties'].update({
 })
 
 caseForm = [
+    'name',
     {
         'type': 'section',
         'htmlClass': 'row',
         'items': [
+
             {
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
-                    'name', 'notes'
+                    lookup_field('report')
                 ]
             },
             {
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
+                    lookup_field('reporter', 'user')
+                ]
+            },
+            {
+                'type': 'section',
+                'htmlClass': 'col-xs-6',
+                'items': [
+                    lookup_field('vessel'),
                 ]
             },
         ]
     },
+    'evidence',
+    editbuttons
 ]
 
 Case = {'schema': caseSchema, 'form': caseForm}

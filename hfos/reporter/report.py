@@ -33,15 +33,23 @@ Report - against IUU fishery
 
 """
 
-from hfos.schemata.defaultform import editbuttons, lookup_field, lookup_object
+from hfos.schemata.defaultform import editbuttons, lookup_field, create_object
 from hfos.schemata.base import base_object, uuid_object
 
 reportSchema = base_object('report', all_roles='crew')
 
 reportSchema['properties'].update({
     'vessel': uuid_object(title='Vessel', description='Select a Vessel'),
-    'notes': {'type': 'string', 'format': 'html', 'title': 'User notes',
-              'description': 'Entry notes'},
+    'notes': {'type': 'string', 'format': 'html',
+              'title': 'User notes',
+              'description': 'Additional notes and remarks'},
+    'noticed': {
+        'type': 'string', 'format': 'datetimepicker', 'title': 'Date & Time',
+        'description': 'When did you notice the vessel'
+    },
+    'reason': {
+        'type': 'string', 'title': 'Reason', 'description': 'Reason for report'
+    }
 })
 
 reportForm = [
@@ -53,18 +61,20 @@ reportForm = [
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
-                    'name', lookup_field('vessel'), lookup_object('vessel', 'vessel')
+                    'noticed', 'reason'
                 ]
             },
             {
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
-                    'notes'
+                    lookup_field('vessel'), create_object('vessel', 'vessel')
                 ]
             },
         ]
-    }
+    },
+    'notes',
+    editbuttons
 ]
 
 Report = {'schema': reportSchema, 'form': reportForm}
