@@ -30,7 +30,7 @@ export function routing($stateProvider) {
     $stateProvider
         .state('app.reporter', {
             url: '/reporter',
-            template: '<objecteditor schema="case" action="create"></objecteditor>',
+            template: '<reporter></reporter>',
             label: 'Report',
             icon: report_icon
         })
