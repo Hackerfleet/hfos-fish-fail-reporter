@@ -24,7 +24,7 @@
 
 'use strict';
 
-class countablescomponent {
+class reportercomponent {
 
     constructor(objectproxy, user, $state, $scope, socket) {
         this.op = objectproxy;
@@ -35,34 +35,20 @@ class countablescomponent {
 
         let self = this;
 
-        this.getCases = function () {
-            self.op.search('case', '', '*').then(function(msg){
-                let cases = msg.data.list;
-                console.log('[CASE] Achievements:', achievements);
-                for (let item of achievements) {
-                    self.achievements.push(item);
-                }
-            });
-            self.op.search('badges', '', '*').then(function(msg){
-                let badges = msg.data.list;
-                for (let item of badges) {
-                    self.badges.push(item);
-                }
-            });
-
+        this.getData = function () {
         };
 
         if (this.user.signedin === true) {
             console.log('User signed in. Getting data.');
-            this.getAwards();
+            this.getData();
         } else {
             console.log('Not logged in apparently, heres this:', this.user);
         }
 
-        $scope.$on('User.Login', this.getAwards);
+        $scope.$on('User.Login', this.getData);
     }
 }
 
-countablescomponent.$inject = ['objectproxy', 'user', '$state', '$scope', 'socket'];
+reportercomponent.$inject = ['objectproxy', 'user', '$state', '$scope', 'socket'];
 
-export default countablescomponent;
+export default reportercomponent;

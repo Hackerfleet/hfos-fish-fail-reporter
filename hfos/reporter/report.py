@@ -61,14 +61,14 @@ reportForm = [
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
-                    'noticed', 'reason'
+                    'name', 'reason'
                 ]
             },
             {
                 'type': 'section',
                 'htmlClass': 'col-xs-6',
                 'items': [
-                    lookup_field('vessel'), create_object('vessel', 'vessel')
+                    'noticed', lookup_field('vessel'), create_object('vessel', 'vessel')
                 ]
             },
         ]

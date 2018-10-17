@@ -74,12 +74,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="report in $ctrl.reports">
+                    <tr ng-repeat="report in $ctrl.reports"
+                        ng-if="$ctrl.vessels[report.vessel].imo_sin.indexOf($ctrl.report_filter_string) > -1
+                                 || $ctrl.vessels[report.vessel].name.toLowerCase().indexOf($ctrl.report_filter_string.toLowerCase()) > -1">
                         <td>{{$index + 1}}
                             <input type="checkbox" ng-model="$ctrl.checked_reports[report.uuid]"/>
                         </td>
                         <td>
-                            <span>{{$ctrl.vessels[report.vessel].imo}}</span>
+                            <span>{{$ctrl.vessels[report.vessel].imo_sin}}</span>
                         </td>
                         <td>
                             <span>{{$ctrl.vessels[report.vessel].name}}</span>
@@ -96,8 +98,13 @@
                         </td>
                         <td>
                             <form>
-                                <button ng-click="$ctrl.delete(report.uuid)"
-                                        class="btn btn-danger btn-sm">
+                                <a type="button" href="#!/editor/report/{{report.uuid}}/edit"
+                                   class="btn btn-info btn-sm">
+                                    <span class="fa fa-search"></span>
+                                    Details
+                                </a>
+                                <button ng-click="$ctrl.delete_report(report.uuid)"
+                                        class="btn btn-warning btn-sm">
                                     <span class="fa fa-times"></span>
                                     Delete report
                                 </button>
@@ -113,6 +120,7 @@
                 </table>
             </div>
         </div>
+
         <div class="panel panel-default">
             <div class="panel-heading panel-hover" role="tab">
                 <h4 class="panel-title">
@@ -125,40 +133,61 @@
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                 <div class="panel-body">
                     <span>Open cases</span>
+                    <form class="form-horizontal pull-right">
+                        <div class="form-group clearable">
+                            <input type="search" class="form-control"
+                                   ng-model="$ctrl.case_filter_string">
+                            <span class="clearable__clear fa"
+                                  style="top: 9px"
+                                  ng-click="$ctrl.case_filter_string = ''"
+                                  ng-class="{'fa-search': $ctrl.case_filter_string === '',
+                                             'fa-times': $ctrl.case_filter_string !== ''}">
+                            </span>
+                        </div>
+                    </form>
                 </div>
                 <table class="table table-hover table-responsive user-list">
                     <thead>
                     <tr>
-                        <th>#
-                            <input type="checkbox"
-                                   ng-click="$ctrl.toggle_cases()"
-                                   ng-model="$ctrl.all_cases"/>
-                            <button class="btn btn-danger btn-xs" ng-click="$ctrl.act_cases()">
-                                <span class="fa fa-times"></span>
-                            </button>
-                        </th>
+                        <th>#</th>
                         <th>Vessel IMO</th>
                         <th>Vessel Name</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="case in $ctrl.cases">
+                    <tr ng-repeat="case in $ctrl.cases"
+                        ng-if="$ctrl.vessels[case.vessel].imo_sin.indexOf($ctrl.case_filter_string) > -1
+                                 || $ctrl.vessels[case.vessel].name.toLowerCase().indexOf($ctrl.case_filter_string.toLowerCase()) > -1">
                         <td>{{$index + 1}}
-                            <input type="checkbox" ng-model="$ctrl.checked_cases[case.uuid]"/>
                         </td>
                         <td>
-                            <span>{{$ctrl.vessels[case.vessel].imo}}</span>
+                            <span>{{$ctrl.vessels[case.vessel].imo_sin}}</span>
                         </td>
                         <td>
                             <span>{{$ctrl.vessels[case.vessel].name}}</span>
                         </td>
                         <td>
                             <form>
-                                <button ng-click="$ctrl.blacklist(case.vessel);"
+                                <a type="button" href="#!/editor/case/{{case.uuid}}/edit"
+                                   class="btn btn-info btn-sm">
+                                    <span class="fa fa-search"></span>
+                                    Details
+                                </a>
+                                <button ng-click="$ctrl.delete_case(case.uuid)"
+                                        class="btn btn-warning btn-sm">
+                                    <span class="fa fa-times"></span>
+                                    Delete case
+                                </button>
+                                <button ng-click="$ctrl.blacklist(case.uuid);"
                                         class="btn btn-warning btn-sm">
                                     <span class="fa fa-crosshairs"></span>
                                     Blacklist
+                                </button>
+                                <button ng-click="$ctrl.legal_action(case.uuid)"
+                                        class="btn btn-danger btn-sm">
+                                    <span class="fa fa-legal"></span>
+                                    Initiate legal action
                                 </button>
                             </form>
                         </td>
