@@ -33,8 +33,8 @@ Report - against IUU fishery
 
 """
 
-from hfos.schemata.defaultform import editbuttons, lookup_field, create_object
-from hfos.schemata.base import base_object, uuid_object
+from isomer.schemata.defaultform import editbuttons, lookup_field, create_object
+from isomer.schemata.base import base_object, uuid_object
 
 reportSchema = base_object('report', all_roles='crew')
 

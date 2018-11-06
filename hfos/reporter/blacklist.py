@@ -33,8 +33,8 @@ Blacklist - against IUU fishery
 
 """
 
-from hfos.schemata.defaultform import editbuttons, lookup_field
-from hfos.schemata.base import base_object, uuid_object
+from isomer.schemata.defaultform import editbuttons, lookup_field
+from isomer.schemata.base import base_object, uuid_object
 
 blacklistSchema = base_object('blacklist', all_roles='crew')
 

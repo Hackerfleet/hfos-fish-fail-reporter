@@ -43,9 +43,9 @@ This software package is a plugin module for HFOS.
       install_requires=[
           'hfos>=1.2.0'
       ],
-      entry_points="""[hfos.components]
+      entry_points="""[isomer.components]
     reporter=hfos.reporter.reporter:Reporter
-[hfos.schemata]
+[isomer.schemata]
     report=hfos.reporter.report:Report
     case=hfos.reporter.case:Case
     blacklist=hfos.reporter.blacklist:Blacklist

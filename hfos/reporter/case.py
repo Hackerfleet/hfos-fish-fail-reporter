@@ -33,8 +33,8 @@ Case - against IUU fishery
 
 """
 
-from hfos.schemata.defaultform import editbuttons, lookup_field
-from hfos.schemata.base import base_object, uuid_object
+from isomer.schemata.defaultform import editbuttons, lookup_field
+from isomer.schemata.base import base_object, uuid_object
 
 caseSchema = base_object('case', all_roles='crew')
 
