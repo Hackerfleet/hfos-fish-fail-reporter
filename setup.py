@@ -23,24 +23,25 @@ __license__ = "AGPLv3"
 
 from setuptools import setup, find_packages
 
-setup(name="hfos-reporter",
+setup(name="fishfail",
       version="0.0.1",
-      description="hfos-reporter - a module to coordinate and generate cases against IUU fishing",
+      description="FishFail - an Isomer module to coordinate and generate cases against IUU fishing",
       author="Hackerfleet Community",
       author_email="riot@c-base.org",
-      url="https://github.com/hackerfleet/hfos-reporter",
+      url="https://github.com/hackerfleet/fishfail",
       license="GNU Affero General Public License v3",
       packages=find_packages(),
-      long_description="""HFOS - Reporter
+      long_description="""HFOS - FishFail
 ===============
 
 A module to create, work on and publish case data to aid the battle against
 illegal unregulated and unregistered fishing.
 
-This software package is a plugin module for HFOS.
+This software package is a plugin module for Isomer.
 """,
       dependency_links=[],
       install_requires=[
+          'isomer>=1.0.0',
           'hfos>=1.2.0'
       ],
       entry_points="""[isomer.components]
